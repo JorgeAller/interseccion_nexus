@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useAppDispatch } from '../../redux/hooks/useAppDispatch'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Home } from '@mui/icons-material'
 // import useGetURLs from '../../hooks/useGetURLs'
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -56,7 +56,7 @@ export const LoginPage = () => {
 
     // const selectedColor = useAppSelector((state) => state.configuration.color)
 
-//    const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // const {BASIC_URL} = useGetURLs  ();
 
@@ -79,6 +79,7 @@ export const LoginPage = () => {
         }
         console.log(data.user)
         // dispatch(login(data))
+        navigate('/test')
     }
 
   /*   const nombres = [
