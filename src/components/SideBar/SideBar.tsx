@@ -1,141 +1,245 @@
-import { SocialIcon } from "react-social-icons";
-//import BotonesNegros from "../BotonesNegros/BotonesNegros";
-//import DesplegablesHeader from "../DesplegablesHeader/DesplegablesHeader";
-import "./style.css";
-import { useIntl } from "react-intl";
-import { useSelector } from "react-redux";
-//import { BotonesIdioma } from "../BotonesIdioma/BotonesIdioma";
-import { BottomNavigation, BottomNavigationAction, Box, Divider } from "@mui/material";
-//import { BotonesColores } from "../BotonesColores/BotonesColores";
-//import LogoInterseccion from "../LogoInterseccion/LogoInterseccion";
-import { useScreenSize } from "../../hooks/useScreenSize";
-import { styles } from './styles';
-import { CSSProperties } from "react";
+import { AddBox, ChevronLeft, ChevronRight, Logout, Person, Search, Settings } from "@mui/icons-material";
+import { Avatar, Box, IconButton, TextField, Tooltip } from "@mui/material";
+import { useState } from "react";
+import Draggable from "react-draggable";
+import { useNavigate } from "react-router-dom";
+import { useGetUserInfoQuery } from "../../services/api";
 
 
 const SideBar = () => {
 
-    const intl = useIntl();
+    const navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const fecha = intl.formatMessage({ id: "fecha" });
-    const lugar = intl.formatMessage({ id: "lugar" });
+    const handleSidebarClick = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    };
 
+    const {data} = useGetUserInfoQuery({});
 
-    const selectedColor = useSelector((state: any)=>state.configuration.color);
-  
-    const {isScreenSizeXSorSM} = useScreenSize();
-
-    const socialIcons = [
+    const buttons = [
         {
             id: 1,
-            name: "twitter",
-            url: "https://x.com/interseccion__"
+            title: 'Añadir contenido',
+            icon: <AddBox sx={{width: '48px', height: '48px', color: 'white'}}/>
         },
         {
             id: 2,
-            name: "instagram",
-            url: "https://www.instagram.com/interseccionfestival/"
+            title: 'Gestion de invitados',
+            icon:  <Person sx={{width: '48px', height: '48px', color: 'white'}}/>
         },
         {
             id: 3,
-            name: "facebook",
-            url: "https://www.facebook.com/interseccionfestival/"
-        },
-        {
-            id: 4,
-            name: "youtube",
-            url: "https://www.youtube.com/channel/UCpe2PXJKq0r_jrYjV7xVpjA"
-        },
-        {
-            id: 5,
-            name: "linkedin",
-            url: "https://www.linkedin.com/company/interseccionfestival/mycompany/"
-        },
+            title: 'Ajustes',
+            icon:  <Settings sx={{width: '48px', height: '48px', color: 'white'}}/>
+        }
+    ];
 
-    ]
 
     return (
-        <Box sx={styles.container}>
-            
+        <Box 
+            sx={{
+                backgroundColor: '#191919',
+                width: 
+                    isSidebarOpen
+                        ? '400px'
+                        : '105px',
+                height: 'calc(100vh - 48px)',
+                borderRadius: '24px',
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                transition: 'width 0.2s linear', 
+                position: 'sticky',
+                top: '24px',
+                left: '24px',
+                mt: 3
+            }}
+        >
+            {/* SIDEBAR TOP */}
             <Box
-                sx={{ 
-                    backgroundColor: selectedColor,
-                    ...styles.secondContainer
+                sx={{
+                    height: '120px',
+                    borderRadius: '24px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    borderBottom: '1px solid white',
+                    borderBottomRightRadius: 0,
+                    borderBottomLeftRadius: 0,
                 }}
             >
-                {/* <LogoInterseccion/> */}
+                <Box sx={{display: 'flex', justifyContent: 'start', alignItems: 'center', m: 3, width: '100%'}}>  {/* SIDEBAR TOP */}
+                    <Box
+                        sx={{
+                            width: '60px',
+                            height: '60px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        component={'img'}
+                        src="http://localhost:5173/iconLogo.png"
+                    />
 
-            
-                <Divider sx={styles.divider}/>
-                
-                <Box sx={styles.fechaLugarContainer}>
-
-                    <Box sx={styles.fechaContainer}>
-                        <Box>{fecha}</Box>
-                        <hr    
-                            style={{
-                                ...styles.lineaFechaLugar as CSSProperties,
-                                width: 
-                                    isScreenSizeXSorSM
-                                        ? 'calc(100vw - 40px - 70px - 140px - 40px)' 
-                                        : 'calc(330px - 40px - 70px - 140px - 20px)', 
-                            }}
-                        />
-                        <Box>2023</Box>
-                    </Box>
-
-                    <Box sx={styles.lugarContainer}>
-                        <Box>A CORUÑA</Box>
-                        <hr 
-                            style={{
-                                ...styles.lineaFechaLugar as CSSProperties,
-                                width: 
-                                    isScreenSizeXSorSM 
-                                        ? 'calc(100vw - 40px - 70px - 200px - 40px)' 
-                                        : 'calc(330px - 40px - 70px - 180px - 20px)', 
-                            }}
-                        />
-                        <Box>{lugar}</Box>
-                    </Box>
+                    {
+                        isSidebarOpen && 
+                            <Box sx={{diplay: 'flex', width: '70%', ml: 2,mt: 1, color: 'white', transition: 'display 0.2s linear', transitionDelay: '2s'}}>
+                                <Box sx={{fontSize: '50px', fontWeight: 600, lineHeight: 1}}>NEXUS </Box>
+                            </Box>
+                    }
 
                 </Box>
-                
-                <Box sx={styles.socialsAndLangs}>
+                    
+            </Box>
 
-                    <BottomNavigation  sx={styles.socials}>
-                        {
-                            socialIcons.map((icon) => (
-                                <BottomNavigationAction 
-                                    key={icon.id}
-                                    icon={
-                                        <SocialIcon
-                                            className="socialIcon"
-                                            bgColor="black"
-                                            fgColor="none"
-                                            url={icon.url}
-                                            style={{ height: 30, width: 30 }}
-                                            target="_blank"
-                                        />
-                                    }
-                                    sx={{minWidth: '30px', maxWidth: '30px'}}
-                            
-                                />
-                            ))
+            {/* BOTON ABRIR SIDEBAR */}
+            <Draggable
+                axis='y'
+                bounds={{top: -30, bottom: 945}}
+            >
+                
+                <IconButton 
+                    sx={{
+                        position: 'absolute', 
+                        left: 
+                            isSidebarOpen 
+                                ? '382px' 
+                                : '87px', 
+                        top: '50px',
+                        backgroundColor: '#408CF9',
+                        transition: 'left 0.2s linear',
+                        '&:hover': {
+                            backgroundColor: '#408CF9'
                         }
-                                        
-                    </BottomNavigation>
+                    }} 
+                    onClick={handleSidebarClick}
+                >
+                    {
+                        isSidebarOpen
+                            ? <ChevronLeft sx={{color: 'white'}}/>
+                            : <ChevronRight sx={{color: 'white'}}/>
+                    }
+                    
+                </IconButton>
+            </Draggable>
 
-                    {/* <BotonesIdioma/> */}
+
+            {/* LISTA DE BOTONES SIDEBAR */}
+            <Box
+                sx={{
+                    height: '100%',
+                    mt: 3,
+                    ml: 5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'start',
+                    width: '100%',
+                }}
+            >
+                {/* BOTON SEARCH */}
+                <Box
+                    onClick={() => setIsSidebarOpen(true)} 
+                    sx={{ 
+                        backgroundColor: 'rgba(240,240,240, 0.1)', 
+                        display: 'flex', 
+                        flexDirection: 'row', 
+                        p: 1, 
+                        borderRadius: 4,
+                        width: isSidebarOpen ? '360px' : '62px',
+                        transition: 'width 0.2s linear',
+                        cursor: 'text',
+                    }}
+                >
+                    <Search sx={{color: 'white', height: '48px', width: '48px'}}/>
+                    {
+                        isSidebarOpen && 
+                            <TextField 
+                                variant='standard' 
+                                autoFocus
+                                type="text" 
+                                sx={{mx: 1}} 
+                                inputProps={{sx:{width: '295px', height: '36px', color: "white", fontSize: '20px'}}}
+                                InputProps={{
+                                    disableUnderline: true
+                                }}
+                            />
+                    }
                 </Box>
 
-                <Divider sx={styles.divider}/>
+                {/* LISTA DE BOTONES */}
+                {buttons.map((button) => (
+                    
+                    <Box key={button.id} sx={{display: 'flex', flexDirection: 'row', cursor: 'pointer', width: '90%', alignItems: 'center', textWrap: 'nowrap', overflow: 'hidden',  gap: 2, p:1, mt: 2, borderRadius: 4, '&:hover': { backgroundColor: 'rgba(240,240,240, 0.1)'}}}>
+                        <Tooltip 
+                            title={button.title} 
+                            placement='right' 
+                            slotProps={{
+                                popper: {
+                                  modifiers: [
+                                    {
+                                      name: 'offset',
+                                      options: {
+                                        offset: [0, 25],
+                                      },
+                                    },
+                                  ],
+                                },
+                                tooltip: {sx:{ fontSize: '18px' }}
+                              }} 
+                              arrow 
+                        >
+                            {button.icon}
+                        </Tooltip>
+                        {
+                            isSidebarOpen &&
+                                <Box sx={{color: 'white', fontSize: '20px', fontWeight: 600}}>
+                                    {button.title}
+                                </Box>
+                        }
+                    </Box>
+                ))}
 
-                {/* <BotonesNegros/> */}
-                
-                {/* {isScreenSizeXSorSM && <BotonesColores/>} */}
+            </Box>
 
-                {/* <DesplegablesHeader/> */}
-                
+            {/* BOTON LOGOUT */}
+            <Box sx={{m: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+                <Box sx={{display:'flex', flexDirection: 'row', ml: 1.5}}>
+
+                    <Tooltip title='Perfil' placement="right" arrow slotProps={{tooltip: {sx:{ fontSize: '18px' }}}} >
+                        <IconButton >
+                            <Avatar sx={{height: '64px', width: '64px'}}/>
+                        </IconButton>
+                    </Tooltip>
+
+                    {
+                        isSidebarOpen && 
+                            <Box sx={{color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', ml: 1, fontFamily: 'Nexa'}}>
+                                <Box sx={{fontSize: '30px', fontWeight: 600}}>{data.data.user.username}</Box>
+                                <Box sx={{fontSize: '16px'}}>{data.data.user.email}</Box>
+                            </Box>
+                    }
+
+                </Box>
+
+
+                {
+                    isSidebarOpen && 
+                        <Tooltip title='Cerrar sesión' placement="right">
+                            <IconButton 
+                                onClick={() => {
+                                    window.localStorage.removeItem('refreshToken');
+                                    navigate('/')
+                                }}
+                                sx={{mr: 1.5}}
+                                >
+                                <Logout sx={{height: '30px', width: '30px', color: "#FA7575"}}/>
+                            </IconButton>
+                        </Tooltip>
+                }
             </Box>
         </Box>
     );

@@ -10,6 +10,7 @@ import { Home } from '@mui/icons-material'
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosPublicInstance } from "../../services/axios";
 import { AxiosError } from "axios";
+import { useState } from 'react'
 
 interface LoginProps {
     user: {
@@ -69,6 +70,8 @@ export const LoginPage = () => {
         resolver: yupResolver(loginFormSchema)
     });
 
+    const [align, setAlign] = useState('center')
+
     const onSubmit = async (data: any) => {
         console.log({data})
 
@@ -77,8 +80,6 @@ export const LoginPage = () => {
         } else {
             dispatch(login({user: {username: data.user}, password: data.password }))
         }
-        console.log(data.user)
-        // dispatch(login(data))
         navigate('/test')
     }
 
@@ -118,12 +119,14 @@ export const LoginPage = () => {
                     flexDirection: 'column', 
                     width: '40%',
                     maxWidth: '700px',
+                    minWidth: '550px',
                     height: '100vh', 
                     gap: 2, 
                     justifyContent: 'space-between', 
                     alignItems: 'center', 
                     backgroundColor: 'green', 
-                    border: '5px solid black',
+                    borderLeft: '5px solid black',
+                    borderRight: '5px solid black'
                 }}
             >   
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end', position: 'relative', top: 200}}>
@@ -182,14 +185,13 @@ export const LoginPage = () => {
                     </Button>
                 </Box>
                 
-                <IconButton href='/' sx={{mb: 5}}>
+                <IconButton href='/test' sx={{mb: 5}}>
                     <Home sx={{color: 'black', fontSize: '50px'}}/>
                 </IconButton>
 
             </Box>
 
 
-                <Link to={'/test'}>NAVIGATE</Link>
         </Box>
     )
 }

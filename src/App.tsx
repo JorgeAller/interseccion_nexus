@@ -3,6 +3,7 @@ import { router } from "./router/router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { QueryClient, QueryClientProvider } from "react-query";
+import "./App.css";
 
 export const App = () => {
     return (

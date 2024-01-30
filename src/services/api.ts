@@ -1,7 +1,8 @@
-import { QueryOptions, useQuery } from "react-query";
+import { QueryOptions, useMutation, useQuery } from "react-query";
 import { axiosPrivateInstance } from "./axios";
 import { retryFunction, unwrapAxiosResponse } from "./common";
 import { createPathWithParams } from "../utils/createPathWithParams";
+import { AxiosError } from "axios";
 
 const BASE_URL_BBDD = 'http://localhost:4000'
 
@@ -17,7 +18,7 @@ export const useGetUserByIdQuery: any= (queryOptions: any, queryParams: any) =>
     });
 
 
-export const useGetUserInfoQuery = (queryOptions: QueryOptions) => 
+export const useGetUserInfoQuery: any = (queryOptions: QueryOptions) => 
     useQuery({
         ...queryOptions, 
         queryKey: ['/me'],
@@ -25,4 +26,16 @@ export const useGetUserInfoQuery = (queryOptions: QueryOptions) =>
             .get(`${BASE_URL_BBDD}/users/me`)
             .then(unwrapAxiosResponse),
         retry: (failureCount: any, error: any) => retryFunction(failureCount, error),
+    })
+
+
+    
+
+export const useMutationNewSection: any = () => 
+    useMutation({
+        mutationKey: ['/newSection'],
+        mutationFn: () => axiosPrivateInstance
+            .post(`${BASE_URL_BBDD}/sections`)
+            .then(unwrapAxiosResponse),
+        retry: (failureCount: any, error: AxiosError) => retryFunction(failureCount, error)
     })

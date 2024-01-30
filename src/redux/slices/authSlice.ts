@@ -63,7 +63,7 @@ export const authSlice = createSlice({
     reducers: {
         setErrorMessage: (state, action: PayloadAction<string>) => {state.errorMessage = action.payload},
         cleanErrorMessage: (state) => {state.errorMessage = null},
-        setAccessToken: (state, action: PayloadAction<string>) => {state.accessToken = action.payload},
+        setAccessToken: (state, action: PayloadAction<string | null>) => {state.accessToken = action.payload},
         setRefreshToken: (state, action: PayloadAction<string>) => {state.refreshToken = action.payload},
         setPermissions: (state, action: PayloadAction<string[]>) => {state.permissions = action.payload},
         setName: (state, action: PayloadAction<string>) => {state.name = action.payload},
@@ -97,6 +97,8 @@ export const authSlice = createSlice({
     }
 });
 
+const { actions, reducer } = authSlice;
+
 export const {
     setErrorMessage,
     cleanErrorMessage,
@@ -105,4 +107,6 @@ export const {
     setPermissions,
     setName,
     logout,
-} = authSlice.actions
+} = actions;
+
+export default reducer;

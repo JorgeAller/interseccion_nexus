@@ -23,8 +23,9 @@ export const login = createAsyncThunk<LoginSuccessResponse, LoginProps, {rejectV
     async({user, password}: LoginProps, {rejectWithValue}) => {
         try {
             const response = await axiosPublicInstance.post('/users/login', {user, password});
-            console.log(response.data)
+
             window.localStorage.setItem('refreshToken', response.data.data.refreshToken)
+
             return response.data;
         } catch (error){
             if(error instanceof AxiosError) {

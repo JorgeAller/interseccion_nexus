@@ -10,14 +10,16 @@ export const router = createBrowserRouter([
     { path: "/", element: pages.landing },
     { path: "/*", element: pages.notFoundPage },
     { path: "/login", element: pages.loginPage},
-
+    
     // RUTAS PRIVADAS PARA EL EQUIPO
     { path: "/", element: <RequireAuth/>, children: [
         {
             element: <Layout/>,
             errorElement: <ErrorPage/>,
             children: [
-                {path: '/test', element: pages.testPage},
+                { path: '/test', element: pages.testPage },
+                { path: "/home", element: pages.home },
+                { path: "/new-section", element: pages.newSection },
             ]
         }
     ]},
